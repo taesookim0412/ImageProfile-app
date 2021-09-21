@@ -1,7 +1,6 @@
 {
   "restartable": "rs",
   "ignore": [".git", "node_modules/", "dist/", "coverage/", ".next/*"],
-  "watch": ["/"],
   "execMap": {
     "ts": "npx next build . && node -r ts-node/register"
   },

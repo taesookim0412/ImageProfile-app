@@ -1,11 +1,19 @@
+import {Dispatch, SetStateAction} from "react";
+import {useState} from "react";
+
 interface InputProps {
     type: string,
-    placeholder?:string,
     value?: string
+    setState?: Dispatch<SetStateAction<string>>,
+    placeholder?:string,
 }
 
 export default function Input(props: InputProps){
+    function handleChange(setState: Dispatch<SetStateAction<string>>, newString: string){
+        console.log(newString);
+        setState(newString);
+    }
     return (
-        <input {...props}/>
+        <input type={props.type} value={props.value}/>
     )
 }
