@@ -1,5 +1,4 @@
 import {Input} from "./Input";
-import "./LoginForm.scss"
 
 export function LoginForm(){
     return (

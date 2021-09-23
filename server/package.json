@@ -24,6 +24,7 @@
     "dev-both": "(start npm run dev-next && start npm run dev-node) || (npm run dev-next & npm run dev-node)",
     "dev-next": "nodemon --config nodemon_nextjs.json server.ts",
     "dev-node": "nodemon --config nodemon_nodejs.json server.ts",
+    "dev-next-ssr": "nodemon --config nodemon_nextjs_ssr.json server.js",
     "prod": "tsc && next build && node copy-next-prod.js && cd build && node server.js"
   },
   "keywords": [],

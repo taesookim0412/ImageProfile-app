@@ -1,0 +1,12 @@
+{
+  "restartable": "rs",
+  "ignore": [".git", "node_modules/", "dist/", "coverage/", ".next/*", "build/"],
+  "execMap": {
+    "js": "tsc && npx next build && node copy-next-prod.js && cd build && node"
+  },
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": "8001"
+  },
+  "ext": "js,json,ts, tsx"
+}

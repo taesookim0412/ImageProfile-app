@@ -1,5 +1,5 @@
 node_modules
 #for code reviews
-#build
-#.next
+build
+.next
 .idea

@@ -3,6 +3,7 @@ import {useState} from "react";
 
 interface InputProps {
     type: string,
+    name?: string,
     value?: string
     setState?: Dispatch<SetStateAction<string>>,
     placeholder?:string,
@@ -10,10 +11,9 @@ interface InputProps {
 
 export default function Input(props: InputProps){
     function handleChange(setState: Dispatch<SetStateAction<string>>, newString: string){
-        console.log(newString);
         setState(newString);
     }
     return (
-        <input type={props.type} value={props.value}/>
+        <input type={props.type} name={props.name} value={props.value}/>
     )
 }
