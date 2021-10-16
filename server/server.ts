@@ -36,7 +36,7 @@ app.use(expressSession({
 
 //temporary settings
 // process.env.loginHost = "http://localhost:8000/"
-process.env.loginHost = ""
+process.env.loginHost = "10.0.0.5"
 
 
 app.get("/", (req, res) => {
