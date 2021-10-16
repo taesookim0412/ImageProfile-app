@@ -1,0 +1,11 @@
+{
+  "/Login/LoginForm/Input": "pages/Login/LoginForm/Input.html",
+  "/Login/LoginForm/LoginForm": "pages/Login/LoginForm/LoginForm.html",
+  "/_app": "pages/_app.js",
+  "/button": "pages/button.js",
+  "/login": "pages/login.js",
+  "/views/Layout": "pages/views/Layout.html",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/404": "pages/404.html"
+}
