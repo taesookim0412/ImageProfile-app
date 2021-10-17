@@ -1,0 +1,33 @@
+//formatting blocks//
+#wrapper{
+  height: 100vh;
+  width: 100vw;
+  background-color:#aee0ff;
+  display: flex;
+  flex-direction: row;
+}
+.sidebar{
+  width: 100px;
+  height: 100vh;
+}
+
+.spacer--top{
+  height: 2vh;
+}
+
+
+
+#main-image{
+  margin: auto;
+}
+#block-image{
+  background-color: white;
+  opacity: 0.6;
+  min-width: 24vw;
+  max-width: 100vw;
+  width: 250px;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

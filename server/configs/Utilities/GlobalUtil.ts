@@ -1,4 +1,4 @@
-import xCsrfStore from "../services/XCSRFStore";
+import xCsrfStore from "../../services/XCSRFStore";
 
 export function initializeVariablesIfRequired():any{
     const globalScope = global as any;

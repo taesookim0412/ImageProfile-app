@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react"
-import {initializeVariablesIfRequired} from "../../configs/GlobalUtil";
+import {initializeVariablesIfRequired} from "../../configs/Utilities/GlobalUtil";
 import {LoginCreateForm} from "./LoginCreateForm/LoginCreateForm";
 
 interface formProps {

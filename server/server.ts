@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 import cookieParser, {CookieParseOptions} from "cookie-parser";
 app.use(cookieParser("This needs a better secret"));
 //Configs
-import {initializeVariablesIfRequired} from "./configs/GlobalUtil";
+import {initializeVariablesIfRequired} from "./configs/Utilities/GlobalUtil";
 initializeVariablesIfRequired();
 
 //Next.js
@@ -17,13 +17,20 @@ import {NextServer} from "next/dist/server/next";
 import next from 'next';
 const renderer:NextServer = next({dev: false})
 
+import path from "path"
+
 let server_port = process.env.PORT;
+let app_dir = "";
 const cwd = process.cwd();
 //split by either \\ or /
 let server_split = cwd.split(/[\\/]/);
 const current_directory = server_split[server_split.length - 1]
 if (current_directory === "build"){
     server_port = "8000";
+    app_dir = path.join(cwd, "..", "..", "ip-react", "build")
+}
+else{
+    app_dir = path.join(cwd, "..", "ip-react", "build")
 }
 //middleware
 // import expressSession from "express-session";
@@ -35,14 +42,13 @@ if (current_directory === "build"){
 //         secure: false
 //     }
 // }))
-
-app.get("/", (req, res) => {
-    res.json({sanity: "check"})
-})
+app.use(express.static(app_dir));
+app.use(express.static(path.join(app_dir, "static")));
 
 renderer.prepare().then(() => {
     const routes = require('./controllers/login');
     routes(app, renderer);
+    app.use("*", express.static(app_dir))
     app.listen(server_port, () => console.log(`Listening on port ${server_port}`));
 });
 
