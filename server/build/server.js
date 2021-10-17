@@ -10,9 +10,12 @@ var app = (0, express_1.default)();
 var body_parser_1 = __importDefault(require("body-parser"));
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
-//Services
-var XCSRFStore_1 = __importDefault(require("./services/XCSRFStore"));
-global.xCsrfStore = XCSRFStore_1.default;
+//Cookies
+var cookie_parser_1 = __importDefault(require("cookie-parser"));
+app.use((0, cookie_parser_1.default)("This needs a better secret"));
+//Configs
+var GlobalUtil_1 = require("./configs/GlobalUtil");
+(0, GlobalUtil_1.initializeVariablesIfRequired)();
 var next_1 = __importDefault(require("next"));
 var renderer = (0, next_1.default)({ dev: false });
 var server_port = process.env.PORT;
@@ -24,18 +27,15 @@ if (current_directory === "build") {
     server_port = "8000";
 }
 //middleware
-var express_session_1 = __importDefault(require("express-session"));
-app.use((0, express_session_1.default)({
-    secret: 'too lazy to get a key',
-    resave: false,
-    cookie: {
-        maxAge: 600000,
-        secure: false
-    }
-}));
-//temporary settings
-// process.env.loginHost = "http://localhost:8000/"
-process.env.loginHost = "";
+// import expressSession from "express-session";
+// app.use(expressSession({
+//     secret: 'too lazy to get a key',
+//     resave: false,
+//     cookie: {
+//         maxAge: 600000,
+//         secure: false
+//     }
+// }))
 app.get("/", function (req, res) {
     res.json({ sanity: "check" });
 });

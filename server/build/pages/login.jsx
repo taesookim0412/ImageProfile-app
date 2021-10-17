@@ -41,22 +41,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getServerSideProps = void 0;
 var LoginForm_1 = __importDefault(require("./Login/LoginForm/LoginForm"));
-var XCSRFStore_1 = __importDefault(require("../services/XCSRFStore"));
 var axios_1 = __importDefault(require("axios"));
 var react_1 = __importDefault(require("react"));
+var GlobalUtil_1 = require("../configs/GlobalUtil");
 // No javascript. only raw css.
 function getServerSideProps(context) {
     return __awaiter(this, void 0, void 0, function () {
-        var csrfToken;
+        var globalScope, csrfToken;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    if (global.xCsrfStore === undefined)
-                        global.xCsrfStore = XCSRFStore_1.default;
-                    return [4 /*yield*/, axios_1.default.get("http://localhost:5000/login/createxcsrftoken")];
+                    globalScope = (0, GlobalUtil_1.initializeVariablesIfRequired)();
+                    return [4 /*yield*/, axios_1.default.get(globalScope.loginHost + "/login/createxcsrftoken")];
                 case 1:
                     csrfToken = (_a.sent()).data;
-                    global.xCsrfStore.addToCsrfStore(csrfToken);
+                    globalScope.xCsrfStore.addToCsrfStore(csrfToken);
                     context.req.session['X-CSRF-TOKEN'] = csrfToken;
                     return [2 /*return*/, {
                             props: {
@@ -73,8 +72,9 @@ function Login(_a) {
     return (<>
             <div style={{ height: "400px", width: "400px" }} id={"login-page"}>
                 <LoginForm_1.default csrfToken={csrfToken}/>
+                <br />
+                <a href={"/create"}>Create User</a>
             </div>
-            <button onClick={function () { return alert("OKAY!"); }}>Click me!!</button>
         </>);
     // return (
     //     <Layout>
@@ -86,7 +86,7 @@ function Login(_a) {
     // )
 }
 exports.default = Login;
-// export default function Login({csrf}:formProps) {
+// export default function login({csrf}:formProps) {
 //     return (
 //         <Layout>
 //             <button onClick={() => alert("Okay!")}>Click me!!</button>

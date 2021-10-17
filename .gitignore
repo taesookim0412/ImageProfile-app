@@ -1,6 +1,6 @@
 node_modules
 #ignored for code reviews, commented for production branch
-#build
+build
 #ignored for code reviews, commented for production branch
-#.next
+.next
 .idea

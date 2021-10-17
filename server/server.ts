@@ -5,10 +5,12 @@ const app:Application = express();
 import bodyParser from "body-parser"
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
-
-//Services
-import xCsrfStore from "./services/XCSRFStore";
-(global as any).xCsrfStore = xCsrfStore;
+//Cookies
+import cookieParser, {CookieParseOptions} from "cookie-parser";
+app.use(cookieParser("This needs a better secret"));
+//Configs
+import {initializeVariablesIfRequired} from "./configs/GlobalUtil";
+initializeVariablesIfRequired();
 
 //Next.js
 import {NextServer} from "next/dist/server/next";
@@ -24,20 +26,15 @@ if (current_directory === "build"){
     server_port = "8000";
 }
 //middleware
-import expressSession from "express-session";
-app.use(expressSession({
-    secret: 'too lazy to get a key',
-    resave: false,
-    cookie: {
-        maxAge: 600000,
-        secure: false
-    }
-}))
-
-//temporary settings
-// process.env.loginHost = "http://localhost:8000/"
-process.env.loginHost = "10.0.0.5"
-
+// import expressSession from "express-session";
+// app.use(expressSession({
+//     secret: 'too lazy to get a key',
+//     resave: false,
+//     cookie: {
+//         maxAge: 600000,
+//         secure: false
+//     }
+// }))
 
 app.get("/", (req, res) => {
     res.json({sanity: "check"})

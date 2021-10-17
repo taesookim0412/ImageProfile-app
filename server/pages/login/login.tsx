@@ -1,9 +1,7 @@
-import LoginForm from "./Login/LoginForm/LoginForm";
-import Layout from "./views/Layout";
-import {useEffect} from "react";
-import xCsrfStore from "../services/XCSRFStore";
+import {LoginForm} from "./LoginForm/LoginForm";
 import axios from "axios";
 import React from "react"
+import {initializeVariablesIfRequired} from "../../configs/GlobalUtil";
 
 interface formProps {
     csrfToken: string
@@ -11,10 +9,9 @@ interface formProps {
 
 // No javascript. only raw css.
 export async function getServerSideProps(context: any) {
-    if ((global as any).xCsrfStore === undefined) (global as any).xCsrfStore = xCsrfStore;
-    const csrfToken = (await axios.get("http://localhost:5000/login/createxcsrftoken")).data;
-    (global as any).xCsrfStore.addToCsrfStore(csrfToken);
-    context.req.session['X-CSRF-TOKEN'] = csrfToken;
+    const globalScope = initializeVariablesIfRequired();
+    const csrfToken = (await axios.get(`${globalScope.loginHost}/login/createxcsrftoken`)).data;
+    globalScope.xCsrfStore.addToCsrfStore(csrfToken);
     return {
         props: {
             csrfToken
@@ -27,8 +24,9 @@ export default function Login({csrfToken}: formProps) {
         <>
             <div style={{height: "400px", width: "400px"}} id={"login-page"}>
                 <LoginForm csrfToken={csrfToken}/>
+                <br/>
+                <a href={"/login/create"}>Create User</a>
             </div>
-            <button onClick={() => alert("OKAY!")}>Click me!!</button>
         </>
     )
     // return (
@@ -40,7 +38,7 @@ export default function Login({csrfToken}: formProps) {
     //     </Layout>
     // )
 }
-// export default function Login({csrf}:formProps) {
+// export default function login({csrf}:formProps) {
 //     return (
 //         <Layout>
 //             <button onClick={() => alert("Okay!")}>Click me!!</button>

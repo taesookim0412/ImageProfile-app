@@ -5,7 +5,7 @@ export function LoginForm(){
         <form>
             <Input type={"text"} placeholder={"Username"}/>
             <Input type={"text"} placeholder={"Password"}/>
-            <input type={"submit"} value={"Login"}/>
+            <input type={"submit"} value={"login"}/>
         </form>
 
     )

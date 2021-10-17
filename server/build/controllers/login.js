@@ -40,32 +40,48 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var axios_1 = __importDefault(require("axios"));
+var GlobalUtil_1 = require("../configs/GlobalUtil");
 module.exports = function (app, renderer) {
-    app.post("/process_login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var pw_response;
+    app.post("/login/process_login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var globalScope, pw_response;
         return __generator(this, function (_a) {
-            console.log(process.env.loginhost + "/login/login");
-            console.log(req.body);
-            pw_response = axios_1.default.post(process.env.loginhost + "/login/login", req.body);
+            globalScope = (0, GlobalUtil_1.initializeVariablesIfRequired)();
+            pw_response = axios_1.default.post(globalScope.loginHost + "/login/login", { username: req.body.username, password: req.body.password });
             //Status code 500 (request failed);
             pw_response.catch(function (err) {
                 if (err) {
                     //TODO: Handle error with validations
-                    return res.redirect("/login");
+                    return res.redirect("/login/login");
                 }
             });
             pw_response.then(function (data) {
-                console.log("got data: " + data);
+                console.log("got data: " + data.data);
+            });
+            return [2 /*return*/];
+        });
+    }); });
+    app.post("/login/process_create", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var globalScope, newbody, create_request;
+        return __generator(this, function (_a) {
+            globalScope = (0, GlobalUtil_1.initializeVariablesIfRequired)();
+            newbody = "username=" + req.body.username + "&password=" + req.body.password;
+            create_request = axios_1.default.post(globalScope.loginHost + "/login/create", newbody);
+            create_request.catch(function (err) {
+                if (err) {
+                    return res.redirect("/login/create");
+                }
+            });
+            create_request.then(function (data) {
+                var _a = data.data, token = _a.token, expiresAt = _a.expiresAt;
+                res.cookie("username", req.body.username, { httpOnly: true });
+                res.cookie("token", token, { httpOnly: true });
+                res.cookie("expiresAt", expiresAt, { httpOnly: true });
+                return res.redirect("/login/login");
             });
             return [2 /*return*/];
         });
     }); });
     app.get("/login", function (req, res) {
-        // @ts-ignore
-        console.log(global.xCsrfStore);
-        console.log(req.session['X-CSRF-TOKEN']);
-        // O_O
-        // return renderer.render(req, res, req.path, {...{...req.query as ParsedUrlQuery}, ...{XCSRFSTORE: xCsrfStore}} as any);
         return renderer.render(req, res, req.path, {});
     });
     app.get("/*", function (req, res) {

@@ -5,7 +5,7 @@
     "js": "tsc && npx next build && node copy-next-prod.js && cd build && node"
   },
   "env": {
-    "NODE_ENV": "production",
+    "NODE_ENV": "development",
     "PORT": "8001"
   },
   "ext": "js,json,ts, tsx"

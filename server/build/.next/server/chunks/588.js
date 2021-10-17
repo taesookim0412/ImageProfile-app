@@ -43,30 +43,19 @@ __webpack_require__.r(__webpack_exports__);
 function LoginForm({
   csrfToken
 }) {
-  // const [username, setUsername] = useState("abc");
-  // const [password, setPassword] = useState("abcd");
-  //client sided function for login attempt
-  // function attemptLogin({csrf}: formInput, username:string, password:string){
-  function attemptLogin({
-    csrfToken
-  }, username, password) {
-    alert("Okay");
-    const response = fetch("process_login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        username,
-        password,
-        csrfToken
-      })
-    });
-    response.then(res => {
-      console.log(res);
-    });
-  }
-
+  // function attemptLogin({csrfToken}: formInput, username:string, password:string){
+  //     const response = fetch("process_login", {
+  //         method: "POST",
+  //         headers: {
+  //             "Content-Type": "application/json"
+  //         },
+  //         body: JSON.stringify({username,
+  //             password,
+  //             csrfToken})})
+  //     response.then((res) => {
+  //         console.log(res);
+  //     })
+  // }
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
     action: "process_login",
     method: "POST",
@@ -85,7 +74,7 @@ function LoginForm({
       value: csrfToken
     }), /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx("input", {
       type: "submit",
-      value: "Login"
+      value: "login"
     })]
   });
 }
