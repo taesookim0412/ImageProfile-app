@@ -42,13 +42,16 @@ else{
 //         secure: false
 //     }
 // }))
+
+const indexFp = path.join(app_dir, "index.html")
+
 app.use(express.static(app_dir));
 app.use(express.static(path.join(app_dir, "static")));
 
 renderer.prepare().then(() => {
     const routes = require('./controllers/login');
-    routes(app, renderer);
-    app.use("*", express.static(app_dir))
+    // app.use("*", express.static(app_dir))
+    routes(app, renderer, indexFp);
     app.listen(server_port, () => console.log(`Listening on port ${server_port}`));
 });
 

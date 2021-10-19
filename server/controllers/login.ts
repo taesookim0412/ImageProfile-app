@@ -9,7 +9,7 @@ import bcrypt from "bcrypt";
 import {validateUsernameAndPassword} from "../configs/Utilities/ValidationUtils";
 import {loginCookiesAndRedirect} from "../configs/Utilities/LoginUtil";
 
-module.exports = (app: Application, renderer: NextServer) => {
+module.exports = (app: Application, renderer: NextServer, indexFp: string) => {
     app.post("/login/process_login", async (req, res) => {
         if (!validateUsernameAndPassword(req.body.username, req.body.password)){
             return res.redirect("/login/login");
@@ -46,13 +46,28 @@ module.exports = (app: Application, renderer: NextServer) => {
             return loginCookiesAndRedirect(data, res, req);
         });
     })
+    app.get("/login/login/", (req, res) => {
+        return renderer.render(req, res, "/login/login", {});
+    });
+    app.get("/login/create/", (req, res) => {
+        return renderer.render(req, res, "/login/create", {});
+    });
     app.get("/login/login", (req, res) => {
         return renderer.render(req, res, req.path, {});
     });
     app.get("/login/create", (req, res) => {
         return renderer.render(req, res, req.path, {});
     });
-    // app.get("/*", (req, res) => {
-    //     return renderer.render(req, res, req.path, req.query as ParsedUrlQuery);
-    // })
+    app.get("/profile", (req, res) => {
+        return res.sendFile(indexFp)
+    })
+    app.get("/home", (req, res) => {
+        return res.sendFile(indexFp)
+    })
+    app.get("/", (req, res) => {
+        return res.sendFile(indexFp)
+    })
+    app.get("*", (req, res) => {
+        return renderer.render(req, res, req.path, req.query as ParsedUrlQuery);
+    });
 }
