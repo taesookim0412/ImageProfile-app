@@ -42,11 +42,12 @@ else {
 //         secure: false
 //     }
 // }))
+var indexFp = path_1.default.join(app_dir, "index.html");
 app.use(express_1.default.static(app_dir));
 app.use(express_1.default.static(path_1.default.join(app_dir, "static")));
 renderer.prepare().then(function () {
     var routes = require('./controllers/login');
-    routes(app, renderer);
-    app.use("*", express_1.default.static(app_dir));
+    // app.use("*", express.static(app_dir))
+    routes(app, renderer, indexFp);
     app.listen(server_port, function () { return console.log("Listening on port " + server_port); });
 });

@@ -45,7 +45,7 @@ var qs_1 = __importDefault(require("qs"));
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var ValidationUtils_1 = require("../configs/Utilities/ValidationUtils");
 var LoginUtil_1 = require("../configs/Utilities/LoginUtil");
-module.exports = function (app, renderer) {
+module.exports = function (app, renderer, indexFp) {
     app.post("/login/process_login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
         var globalScope, newPass, pw_response;
         return __generator(this, function (_a) {
@@ -99,13 +99,28 @@ module.exports = function (app, renderer) {
             }
         });
     }); });
+    app.get("/login/login/", function (req, res) {
+        return renderer.render(req, res, "/login/login", {});
+    });
+    app.get("/login/create/", function (req, res) {
+        return renderer.render(req, res, "/login/create", {});
+    });
     app.get("/login/login", function (req, res) {
         return renderer.render(req, res, req.path, {});
     });
     app.get("/login/create", function (req, res) {
         return renderer.render(req, res, req.path, {});
     });
-    // app.get("/*", (req, res) => {
-    //     return renderer.render(req, res, req.path, req.query as ParsedUrlQuery);
-    // })
+    app.get("/profile", function (req, res) {
+        return res.sendFile(indexFp);
+    });
+    app.get("/home", function (req, res) {
+        return res.sendFile(indexFp);
+    });
+    app.get("/", function (req, res) {
+        return res.sendFile(indexFp);
+    });
+    app.get("*", function (req, res) {
+        return renderer.render(req, res, req.path, req.query);
+    });
 };
