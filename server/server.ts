@@ -47,8 +47,8 @@ app.use(express.static(path.join(app_dir, "static")));
 
 renderer.prepare().then(() => {
     const routes = require('./controllers/login');
+    // app.use("*", express.static(app_dir))
     routes(app, renderer);
-    app.use("*", express.static(app_dir))
     app.listen(server_port, () => console.log(`Listening on port ${server_port}`));
 });
 
