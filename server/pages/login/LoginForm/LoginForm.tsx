@@ -18,13 +18,12 @@ async function attemptLogin(e: FormEvent<HTMLFormElement>, csrfToken: string){
     // const newPass = await bcrypt.hash((e.target as any).password.value, 10);
     const response = axios.post("/login/process_login", {username, password: (e.target as any).password.value, csrfToken});
     response.catch(err => {
-        //TODO: comment
+        location.reload();
         return;
     });
-    // response.then(_ => {
-    //     console.log("resorting");
-    //     window.location.href = "/home"
-    // })
+    response.then(_ => {
+        window.location.href = "/home"
+    })
 }
 
 export function LoginForm({csrfToken}:formInput){

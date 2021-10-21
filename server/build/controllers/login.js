@@ -47,55 +47,64 @@ var ValidationUtils_1 = require("../configs/Utilities/ValidationUtils");
 var LoginUtil_1 = require("../configs/Utilities/LoginUtil");
 module.exports = function (app, renderer, indexFp) {
     app.post("/login/process_login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var globalScope, newPass, pw_response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var globalScope, newbody, user_data, _a, e_1;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
-                    if (!(0, ValidationUtils_1.validateUsernameAndPassword)(req.body.username, req.body.password)) {
-                        return [2 /*return*/, res.redirect("/login/login")];
-                    }
                     globalScope = (0, GlobalUtil_1.initializeVariablesIfRequired)();
-                    return [4 /*yield*/, bcrypt_1.default.hash(req.body.password, 10)];
+                    if (!(0, ValidationUtils_1.validateUsernameAndPassword)(req.body.username, req.body.password) || !globalScope.xCsrfStore.validateCsrfToken(req.body.csrfToken)) {
+                        return [2 /*return*/, res.status(403).end()];
+                    }
+                    newbody = qs_1.default.stringify({ username: req.body.username });
+                    _b.label = 1;
                 case 1:
-                    newPass = _a.sent();
-                    pw_response = axios_1.default.post(globalScope.loginHost + "/login/login", { username: req.body.username, password: newPass });
-                    //Status code 500 (request failed);
-                    pw_response.catch(function (err) {
-                        if (err) {
-                            //TODO: Handle error with validations
-                            return res.redirect("/login/login");
-                        }
-                    });
-                    pw_response.then(function (data) {
-                        return (0, LoginUtil_1.loginCookiesAndRedirect)(data, res, req);
-                    });
-                    return [2 /*return*/];
+                    _b.trys.push([1, 5, , 6]);
+                    return [4 /*yield*/, axios_1.default.post(globalScope.loginHost + "/login/login", newbody)];
+                case 2:
+                    user_data = _b.sent();
+                    return [4 /*yield*/, bcrypt_1.default.compare(req.body.password, user_data.data.password)];
+                case 3:
+                    if (!(_b.sent()))
+                        throw new Error();
+                    delete user_data.data.password;
+                    _a = user_data.data;
+                    return [4 /*yield*/, axios_1.default.post(globalScope.loginHost + "/login/generatejwt", newbody)];
+                case 4:
+                    _a.token = (_b.sent()).data;
+                    (0, LoginUtil_1.loginCookiesAndRedirect)(user_data.data, res, req);
+                    return [2 /*return*/, res.end()];
+                case 5:
+                    e_1 = _b.sent();
+                    return [2 /*return*/, res.status(403).end()];
+                case 6: return [2 /*return*/];
             }
         });
     }); });
     app.post("/login/process_create", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var globalScope, newPass, newbody, create_request;
+        var globalScope, newPass, newbody, create_request, e_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    if (!(0, ValidationUtils_1.validateUsernameAndPassword)(req.body.username, req.body.password)) {
-                        return [2 /*return*/, res.redirect("/login/create")];
-                    }
                     globalScope = (0, GlobalUtil_1.initializeVariablesIfRequired)();
+                    if (!(0, ValidationUtils_1.validateUsernameAndPassword)(req.body.username, req.body.password) || !globalScope.xCsrfStore.validateCsrfToken(req.body.csrfToken)) {
+                        return [2 /*return*/, res.status(403).end()];
+                    }
                     return [4 /*yield*/, bcrypt_1.default.hash(req.body.password, 10)];
                 case 1:
                     newPass = _a.sent();
                     newbody = qs_1.default.stringify({ username: req.body.username, password: newPass });
-                    create_request = axios_1.default.post(globalScope.loginHost + "/login/create", newbody);
-                    create_request.catch(function (err) {
-                        if (err) {
-                            return res.redirect("/login/create");
-                        }
-                    });
-                    create_request.then(function (data) {
-                        return (0, LoginUtil_1.loginCookiesAndRedirect)(data, res, req);
-                    });
-                    return [2 /*return*/];
+                    _a.label = 2;
+                case 2:
+                    _a.trys.push([2, 4, , 5]);
+                    return [4 /*yield*/, axios_1.default.post(globalScope.loginHost + "/login/create", newbody)];
+                case 3:
+                    create_request = _a.sent();
+                    (0, LoginUtil_1.loginCookiesAndRedirect)(create_request.data, res, req);
+                    return [2 /*return*/, res.end()];
+                case 4:
+                    e_2 = _a.sent();
+                    return [2 /*return*/, res.status(403).end()];
+                case 5: return [2 /*return*/];
             }
         });
     }); });

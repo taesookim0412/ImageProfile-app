@@ -79,12 +79,12 @@ async function attemptLogin(e, csrfToken) {
     csrfToken
   });
   response.catch(err => {
-    //TODO: comment
+    location.reload();
     return;
-  }); // response.then(_ => {
-  //     console.log("resorting");
-  //     window.location.href = "/home"
-  // })
+  });
+  response.then(_ => {
+    window.location.href = "/home";
+  });
 }
 
 function LoginForm({

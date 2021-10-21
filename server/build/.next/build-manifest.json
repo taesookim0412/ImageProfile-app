@@ -5,8 +5,8 @@
   "devFiles": [],
   "ampDevFiles": [],
   "lowPriorityFiles": [
-    "static/nH47jI7oEpIL6TWHerlP4/_buildManifest.js",
-    "static/nH47jI7oEpIL6TWHerlP4/_ssgManifest.js"
+    "static/Aix84JG4AVyqnLa5ifkPw/_buildManifest.js",
+    "static/Aix84JG4AVyqnLa5ifkPw/_ssgManifest.js"
   ],
   "pages": {
     "/_app": [
@@ -33,7 +33,7 @@
       "static/chunks/framework-895f067827ebe11ffe45.js",
       "static/chunks/main-8d15616dad332ac01c02.js",
       "static/chunks/988-726500a269bded0229df.js",
-      "static/chunks/pages/login/LoginCreateForm/LoginCreateForm-0f3714c7114bc25ab3c9.js"
+      "static/chunks/pages/login/LoginCreateForm/LoginCreateForm-c12cad02541dff2ca7d3.js"
     ],
     "/login/LoginForm/Input": [
       "static/chunks/webpack-fb76148cfcfb42ca18eb.js",
@@ -46,21 +46,21 @@
       "static/chunks/framework-895f067827ebe11ffe45.js",
       "static/chunks/main-8d15616dad332ac01c02.js",
       "static/chunks/988-726500a269bded0229df.js",
-      "static/chunks/pages/login/LoginForm/LoginForm-689a2fea4d6c4851932d.js"
+      "static/chunks/pages/login/LoginForm/LoginForm-9975461e8615889d93f6.js"
     ],
     "/login/create": [
       "static/chunks/webpack-fb76148cfcfb42ca18eb.js",
       "static/chunks/framework-895f067827ebe11ffe45.js",
       "static/chunks/main-8d15616dad332ac01c02.js",
       "static/chunks/988-726500a269bded0229df.js",
-      "static/chunks/pages/login/create-6984fc0c020f68a290d3.js"
+      "static/chunks/pages/login/create-a3333f918ee4ec747287.js"
     ],
     "/login/login": [
       "static/chunks/webpack-fb76148cfcfb42ca18eb.js",
       "static/chunks/framework-895f067827ebe11ffe45.js",
       "static/chunks/main-8d15616dad332ac01c02.js",
       "static/chunks/988-726500a269bded0229df.js",
-      "static/chunks/pages/login/login-bd270b2ec2bf171b3f2b.js"
+      "static/chunks/pages/login/login-9498205ad60a838a4597.js"
     ],
     "/views/Layout": [
       "static/chunks/webpack-fb76148cfcfb42ca18eb.js",

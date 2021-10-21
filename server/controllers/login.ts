@@ -11,40 +11,39 @@ import {loginCookiesAndRedirect} from "../configs/Utilities/LoginUtil";
 
 module.exports = (app: Application, renderer: NextServer, indexFp: string) => {
     app.post("/login/process_login", async (req, res) => {
-        if (!validateUsernameAndPassword(req.body.username, req.body.password)){
-            return res.redirect("/login/login");
-        }
         const globalScope = initializeVariablesIfRequired();
-        const newPass = await bcrypt.hash(req.body.password, 10);
-        const pw_response =  axios.post(`${globalScope.loginHost}/login/login`, {username: req.body.username, password: newPass})
-        //Status code 500 (request failed);
-        pw_response.catch((err) => {
-            if (err) {
-                //TODO: Handle error with validations
-                return res.redirect("/login/login")
-            }
-        });
-        pw_response.then((data) => {
-            return loginCookiesAndRedirect(data, res, req);
-        })
+        if (!validateUsernameAndPassword(req.body.username, req.body.password) || !globalScope.xCsrfStore.validateCsrfToken(req.body.csrfToken)) {
+            return res.status(403).end();
+        }
+        const newbody = qs.stringify({username: req.body.username});
+        try {
+            const user_data = await axios.post(`${globalScope.loginHost}/login/login`, newbody);
+            if (!await bcrypt.compare(req.body.password, user_data.data.password)) throw new Error();
+            delete user_data.data.password;
+            user_data.data.token = (await axios.post(`${globalScope.loginHost}/login/generatejwt`, newbody)).data;
+            loginCookiesAndRedirect(user_data.data, res, req);
+            return res.end();
+        }
+        catch(e) {
+            return res.status(403).end();
+        }
     })
 
     app.post("/login/process_create", async (req, res) => {
-        if (!validateUsernameAndPassword(req.body.username, req.body.password)){
-            return res.redirect("/login/create")
-        }
         const globalScope = initializeVariablesIfRequired();
+        if (!validateUsernameAndPassword(req.body.username, req.body.password) || !globalScope.xCsrfStore.validateCsrfToken(req.body.csrfToken)) {
+            return res.status(403).end();
+        }
         const newPass = await bcrypt.hash(req.body.password, 10);
         const newbody = qs.stringify({username: req.body.username, password: newPass});
-        const create_request = axios.post(`${globalScope.loginHost}/login/create`, newbody);
-        create_request.catch(err => {
-            if (err){
-                return res.redirect("/login/create")
-            }
-        });
-        create_request.then((data) => {
-            return loginCookiesAndRedirect(data, res, req);
-        });
+        try {
+            const create_request = await axios.post(`${globalScope.loginHost}/login/create`, newbody);
+            loginCookiesAndRedirect(create_request.data, res, req);
+            return res.end();
+        }
+        catch(e) {
+            return res.status(403).end();
+        }
     })
     app.get("/login/login/", (req, res) => {
         return renderer.render(req, res, "/login/login", {});

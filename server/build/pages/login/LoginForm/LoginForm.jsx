@@ -57,8 +57,11 @@ function attemptLogin(e, csrfToken) {
             }
             response = axios_1.default.post("/login/process_login", { username: username, password: e.target.password.value, csrfToken: csrfToken });
             response.catch(function (err) {
-                //TODO: comment
+                location.reload();
                 return;
+            });
+            response.then(function (_) {
+                window.location.href = "/home";
             });
             return [2 /*return*/];
         });
